@@ -32,6 +32,7 @@ $ go get github.com/BurntSushi/toml
 [setting]
 api_key = "YOUR_API_KEY"
 regist_id = "YOUR_REGISTRATION_ID"
+gcm_server = "GCM_SERVER"
 ```
 
 # 実行

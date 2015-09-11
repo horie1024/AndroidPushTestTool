@@ -11,9 +11,10 @@ import (
 )
 
 type Gcm struct {
-	Client    *http.Client
-	Api_key   string
-	Regist_id string
+	Client     *http.Client
+	Api_key    string
+	Regist_id  string
+	Gcm_server string
 }
 
 func NewGcm() *Gcm {
@@ -22,9 +23,10 @@ func NewGcm() *Gcm {
 	toml.DecodeFile("config.toml", &config)
 
 	gcm := &Gcm{
-		Client:    new(http.Client),
-		Api_key:   config.Setting.Api_key,
-		Regist_id: config.Setting.Regist_id,
+		Client:     new(http.Client),
+		Api_key:    config.Setting.Api_key,
+		Regist_id:  config.Setting.Regist_id,
+		Gcm_server: config.Setting.Gcm_server,
 	}
 
 	return gcm
@@ -35,8 +37,9 @@ type Config struct {
 }
 
 type Setting struct {
-	Api_key   string
-	Regist_id string
+	Api_key    string
+	Regist_id  string
+	Gcm_server string
 }
 
 type Message struct {
@@ -68,7 +71,7 @@ func (gcm *Gcm) SendMessage(message string, key string, value string) (*Response
 		fmt.Println("errr")
 	}
 
-	req, err := http.NewRequest("POST", GCM_SERVER, bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", gcm.Gcm_server, bytes.NewBuffer(data))
 	if err != nil {
 		return nil, err
 	}
